@@ -1,0 +1,23 @@
+table,th, td{
+  border:1px solid black;
+  border-collapse: collapse;
+  padding:10px;
+}
+
+.app {
+  display:flex;
+  flex-direction:row;
+  overflow:hidden;
+}
+
+.insertmeal {
+  border: 1px solid black;
+  width:50%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.reclist{
+  max-width:50%;
+}
