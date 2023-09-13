@@ -13,6 +13,16 @@ class InsertMeal extends Component {
     }
 
     this.myRef = React.createRef();
+
+    this.handleKeypress = this.handleKeypress.bind(this);
+  }
+
+  handleKeypress(args) {
+    if (args["code"] == "Enter") {
+      this.handleClick({
+        "value":document.getElementById(":r0:").value
+      })
+    }
   }
 
   componentDidMount() {
@@ -30,6 +40,12 @@ class InsertMeal extends Component {
             items:formatted_arr
         })
     })
+
+    document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
+  }
+
+  componentWillUnmount() {
+    document.getElementById(":r0:").removeEventListener("keydown", this.handleKeypress);
   }
 
   handleClick(item){
@@ -39,7 +55,7 @@ class InsertMeal extends Component {
         console.log(error.response);
     })
     .then((res)=>{
-        console.log(res);
+        //console.log(res);
     })
   }
 
