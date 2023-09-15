@@ -42,10 +42,12 @@ class InsertMeal extends Component {
     })
 
     document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
+    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteClick);
   }
 
   componentWillUnmount() {
     document.getElementById(":r0:").removeEventListener("keydown", this.handleKeypress);
+    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteClick);
   }
 
   handleClick(item){
@@ -59,12 +61,26 @@ class InsertMeal extends Component {
     })
   }
 
+  handleDeleteClick(item){
+    let input = {"search":item.value}
+    axios.post('http://127.0.0.1:5000/remove_eaten_dish', input)
+    .catch(function(error) {
+      console.log(error.response);
+    })
+    .then((res)=>{
+      //console.log(res);
+    })
+  }
+
   render() {
     const {items} = this.state;
     return (
       <div className="insertmeal">
         <DatalistInput label = "Type in the meal you just ate: "
         onSelect={(item)=>this.handleClick(item)}
+        items={items}/>
+        <DatalistInput label = "Type in the meal you would like to delete: "
+        onSelect={(item)=>this.handleDeleteClick(item)}
         items={items}/>
       </div>
     )
