@@ -24,7 +24,20 @@ class RecList extends Component {
         cell1.innerHTML = out_arr[i][0];
         cell2.innerHTML = out_arr[i][1];
         cell3.innerHTML = out_arr[i][2];
+        let name = out_arr[i][0];
+        curr_row.addEventListener("click", (event)=>{this.addEatenDish(event, name)});
       }
+    })
+  }
+
+  addEatenDish(event, name) {
+    let input = {"search": name};
+    axios.post('http://127.0.0.1:5000/add_eaten_dish', input)
+    .catch(function(error) {
+      console.log(error.response);
+    })
+    .then((res)=>{
+      //console.log(res);
     })
   }
 
