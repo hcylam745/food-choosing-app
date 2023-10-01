@@ -7,7 +7,6 @@ table,th, td{
 .app {
   display:flex;
   flex-direction:row;
-  overflow:hidden;
 }
 
 .insertmeal {
@@ -20,4 +19,41 @@ table,th, td{
 
 .reclist{
   max-width:50%;
+}
+
+.reclisttable {
+   width:100%;
+ }
+tr {
+  text-decoration:underline;
+  color:blue;
+}
+
+.tableheader {
+  color:black;
+  text-decoration: none;
+}
+
+.inputcontainer {
+  padding:1%;
+  height:48%;
+  width:98%;
+}
+
+.react-datalist-input__label {
+  font-weight:bold;
+  font-size:18px;
+}
+
+.app.mobile {
+  flex-direction: column;
+}
+
+.reclist.mobile {
+  max-width:100%;
+  width:100%;
+}
+
+.insertmeal.mobile {
+  width:100%;
 }

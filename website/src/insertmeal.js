@@ -15,6 +15,7 @@ class InsertMeal extends Component {
     this.myRef = React.createRef();
 
     this.handleKeypress = this.handleKeypress.bind(this);
+    this.getDishes = this.getDishes.bind(this);
   }
 
   handleKeypress(args) {
@@ -25,7 +26,7 @@ class InsertMeal extends Component {
     }
   }
 
-  componentDidMount() {
+  getDishes() {
     axios.get('http://127.0.0.1:5000/existing_dishes')
     .catch(function (error) {
         console.log(error.response);
@@ -40,6 +41,10 @@ class InsertMeal extends Component {
             items:formatted_arr
         })
     })
+  }
+
+  componentDidMount() {
+    this.getDishes();
 
     document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
     document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteClick);
@@ -58,6 +63,7 @@ class InsertMeal extends Component {
     })
     .then((res)=>{
         //console.log(res);
+        this.getDishes();
     })
   }
 
@@ -69,6 +75,7 @@ class InsertMeal extends Component {
     })
     .then((res)=>{
       //console.log(res);
+      this.getDishes();
     })
   }
 
@@ -76,12 +83,16 @@ class InsertMeal extends Component {
     const {items} = this.state;
     return (
       <div className="insertmeal">
-        <DatalistInput label = "Type in the meal you just ate: "
-        onSelect={(item)=>this.handleClick(item)}
-        items={items}/>
-        <DatalistInput label = "Type in the meal you would like to delete: "
-        onSelect={(item)=>this.handleDeleteClick(item)}
-        items={items}/>
+        <div className="inputcontainer">
+          <DatalistInput label = "Type in the meal you just ate: "
+          onSelect={(item)=>this.handleClick(item)}
+          items={items}/>
+        </div>
+        <div className="inputcontainer">
+          <DatalistInput label = "Type in the meal you would like to delete: "
+          onSelect={(item)=>this.handleDeleteClick(item)}
+          items={items}/>
+        </div>
       </div>
     )
   }
