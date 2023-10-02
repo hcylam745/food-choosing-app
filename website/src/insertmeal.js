@@ -15,6 +15,7 @@ class InsertMeal extends Component {
     this.myRef = React.createRef();
 
     this.handleKeypress = this.handleKeypress.bind(this);
+    this.handleDeleteKeypress = this.handleDeleteKeypress.bind(this);
     this.getDishes = this.getDishes.bind(this);
   }
 
@@ -22,6 +23,14 @@ class InsertMeal extends Component {
     if (args["code"] == "Enter") {
       this.handleClick({
         "value":document.getElementById(":r0:").value
+      })
+    }
+  }
+
+  handleDeleteKeypress(args) {
+    if (args["code"] == "Enter") {
+      this.handleDeleteClick({
+        "value":document.getElementById(":r2:").value
       })
     }
   }
@@ -47,12 +56,12 @@ class InsertMeal extends Component {
     this.getDishes();
 
     document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
-    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteClick);
+    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteKeypress);
   }
 
   componentWillUnmount() {
     document.getElementById(":r0:").removeEventListener("keydown", this.handleKeypress);
-    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteClick);
+    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteKeypress);
   }
 
   handleClick(item){
@@ -67,7 +76,7 @@ class InsertMeal extends Component {
     })
   }
 
-  handleDeleteClick(item){
+  handleDeleteClick(item) {
     let input = {"search":item.value}
     axios.post('http://127.0.0.1:5000/remove_eaten_dish', input)
     .catch(function(error) {

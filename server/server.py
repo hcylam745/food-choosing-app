@@ -46,6 +46,14 @@ def add_eaten_dish():
             cursor.close()
             return "Successfully added " + user_input + " into the database!"
         else:
+            # add to history, just so user can do undos.
+            cursor.execute('SELECT * FROM foods_history WHERE EN_NAME = %s ORDER BY MOST_RECENT_Date ASC', [user_input])
+            history_result = cursor.fetchall()
+            if len(history_result) >= 5:
+                cursor.execute("UPDATE foods_history SET MOST_RECENT_DATE = (%s) WHERE id = %s AND MOST_RECENT_DATE = %s", [result[0][3], history_result[0][2],history_result[0][3]])
+            else:
+                cursor.execute('INSERT INTO foods_history (EN_NAME, CH_NAME, id, MOST_RECENT_DATE) VALUES (%s, %s, %s, %s)', [result[0][0], result[0][1], result[0][2], result[0][3]])
+
             # searched name found in db, update the most recent eaten time.
             cursor.execute('UPDATE foods SET MOST_RECENT_DATE = (%s) WHERE id = %s', [curr_time, result[0][2]])
             mysql.connection.commit()
@@ -62,6 +70,7 @@ def remove_eaten_dish():
         user_input = request.json["search"]
         # handle if user input is english/chinese.
         cursor.execute('DELETE FROM foods where EN_NAME = %s', [user_input])
+        cursor.execute('DELETE FROM foods_history where EN_NAME = %s', [user_input])
         mysql.connection.commit()
         cursor.close()
         return "Successfully deleted " + user_input + " from the database!"

@@ -9,7 +9,13 @@ class RecList extends Component {
     this.myRef = React.createRef();
   }
 
-  componentDidMount() {
+  getDishes() {
+    // remove all previous entries in table.
+    let childNodes = this.myRef.current.childNodes[0].childNodes;
+    for (let i = 1; i < childNodes.length; i) {
+      childNodes[i].remove();
+    }
+
     axios.get('http://127.0.0.1:5000/get_recommended_dishes')
     .catch(function (error) {
       console.log(error.response);
@@ -30,6 +36,10 @@ class RecList extends Component {
     })
   }
 
+  componentDidMount() {
+    this.getDishes()
+  }
+
   addEatenDish(event, name) {
     let input = {"search": name};
     axios.post('http://127.0.0.1:5000/add_eaten_dish', input)
@@ -38,6 +48,7 @@ class RecList extends Component {
     })
     .then((res)=>{
       //console.log(res);
+      this.getDishes();
     })
   }
 
