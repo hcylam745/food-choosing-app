@@ -6,6 +6,8 @@ from routes import app
 
 import connect
 
+import datetime
+
 conn = connect.get_connection()
 
 @app.route("/add_eaten_dish", methods=['POST'])

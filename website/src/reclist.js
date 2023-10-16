@@ -10,17 +10,17 @@ class RecList extends Component {
   }
 
   getDishes() {
-    // remove all previous entries in table.
-    let childNodes = this.myRef.current.childNodes[0].childNodes;
-    for (let i = 1; i < childNodes.length; i) {
-      childNodes[i].remove();
-    }
-
     axios.get('http://127.0.0.1:5000/get_recommended_dishes')
     .catch(function (error) {
       console.log(error.response);
     })
     .then(async (res)=> {
+      // remove all previous entries in table.
+      let childNodes = this.myRef.current.childNodes[0].childNodes;
+      for (let i = 1; i < childNodes.length; i) {
+        childNodes[i].remove();
+      };
+
       let out_arr = res.data;
       for (let i = 0; i < out_arr.length; i++) {
         let curr_row = this.myRef.current.insertRow(i+1);

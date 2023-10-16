@@ -36,7 +36,7 @@ class InsertMeal extends Component {
   }
 
   getDishes() {
-    axios.get('http://127.0.0.1:5000/existing_dishes')
+    axios.get('http://127.0.0.1:5000/get_recommended_dishes')
     .catch(function (error) {
         console.log(error.response);
     })
@@ -49,6 +49,35 @@ class InsertMeal extends Component {
         this.setState({
             items:formatted_arr
         })
+        
+        let childNodes = document.getElementsByClassName("reclisttable")[0].childNodes[0].childNodes;
+        for (let i = 1; i < childNodes.length; i) {
+          childNodes[i].remove();
+        }
+
+        for(let i = 0; i < out_arr.length; i++) {
+          let curr_row = document.getElementsByClassName("reclisttable")[0].insertRow(i+1);
+          let cell1 = curr_row.insertCell(0);
+          let cell2 = curr_row.insertCell(1);
+          let cell3 = curr_row.insertCell(2);
+          cell1.innerHTML = out_arr[i][0];
+          cell2.innerHTML = out_arr[i][1];
+          cell3.innerHTML = out_arr[i][2];
+          let name = out_arr[i][0];
+          curr_row.addEventListener("click", (event)=>{this.addEatenDish(event, name)})
+        }
+    })
+  }
+
+  addEatenDish(event, name) {
+    let input = {"search": name};
+    axios.post('http://127.0.0.1:5000/add_eaten_dish', input)
+    .catch(function(error) {
+      console.log(error.response);
+    })
+    .then((res)=>{
+      //console.log(res);
+      this.getDishes();
     })
   }
 
