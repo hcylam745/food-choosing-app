@@ -14,33 +14,36 @@ class InsertMeal extends Component {
 
     this.myRef = React.createRef();
 
-    this.handleKeypress = this.handleKeypress.bind(this);
+    //this.handleKeypress = this.handleKeypress.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleDeleteKeypress = this.handleDeleteKeypress.bind(this);
     this.getDishes = this.getDishes.bind(this);
   }
 
-  handleKeypress(args) {
-    if (args["code"] == "Enter") {
-      this.handleClick({
-        "value":document.getElementById(":r0:").value
-      })
-    }
-  }
+  // handleKeypress(args) {
+  //   if (args["code"] == "Enter") {
+  //     this.handleClick({
+  //       "value":document.getElementById(":r0:").value
+  //     })
+  //   }
+  // }
 
   handleDeleteKeypress(args) {
     if (args["code"] == "Enter") {
       this.handleDeleteClick({
-        "value":document.getElementById(":r2:").value
+        "value":document.getElementsByClassName("react-datalist-input__textbox")[0].value
       })
     }
   }
 
   getDishes() {
+    //console.log("getDishes");
     axios.get('http://127.0.0.1:5000/get_recommended_dishes')
     .catch(function (error) {
         console.log(error.response);
     })
     .then((res) => {
+        //console.log(res.data);
         let out_arr = res.data;
         let formatted_arr = []
         for(let i = 0; i < out_arr.length; i++) {
@@ -84,17 +87,24 @@ class InsertMeal extends Component {
   componentDidMount() {
     this.getDishes();
 
-    document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
-    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteKeypress);
+    //document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
+    document.getElementsByClassName("react-datalist-input__textbox")[0].addEventListener("keydown", this.handleDeleteKeypress);
   }
 
   componentWillUnmount() {
-    document.getElementById(":r0:").removeEventListener("keydown", this.handleKeypress);
-    document.getElementById(":r2:").addEventListener("keydown", this.handleDeleteKeypress);
+    //document.getElementById(":r0:").removeEventListener("keydown", this.handleKeypress);
+    document.getElementsByClassName("react-datalist-input__textbox")[0].addEventListener("keydown", this.handleDeleteKeypress);
   }
 
-  handleClick(item){
-    let input = {"search":item.value}
+  handleClick(){
+    if (document.getElementById("englishinput") == null) {
+      return;
+    }
+
+    let english = document.getElementById("englishinput").value;
+    let chinese = document.getElementById("chineseinput").value;
+
+    let input = {"english": english, "chinese": chinese}
     axios.post('http://127.0.0.1:5000/add_eaten_dish', input)
     .catch(function(error){
         console.log(error.response);
@@ -122,9 +132,15 @@ class InsertMeal extends Component {
     return (
       <div className="insertmeal">
         <div className="inputcontainer">
-          <DatalistInput label = "Type in the meal you just ate: "
-          onSelect={(item)=>this.handleClick(item)}
-          items={items}/>
+          <div className="layer">
+            <div className="english">English Name:</div>
+            <div className="chinese">Chinese Name:</div>
+          </div>
+          <div className="layer">
+            <input className="insertinput" id="englishinput"/>
+            <input className="insertinput" id="chineseinput"/>
+            <button className="insertsubmit" onClick={this.handleClick}>Submit</button>
+          </div>
         </div>
         <div className="inputcontainer">
           <DatalistInput label = "Type in the meal you would like to delete: "

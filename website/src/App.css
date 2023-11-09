@@ -11,7 +11,7 @@ table,th, td{
 
 .insertmeal {
   border: 1px solid black;
-  width:50%;
+  min-width:50%;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -38,6 +38,24 @@ tr {
   padding:1%;
   height:48%;
   width:98%;
+  display:flex;
+  flex-direction:column;
+}
+
+.layer {
+  display:flex;
+  flex-direction:row;
+  width:99.5%;
+  padding:0.5%;
+  font-weight:bold;
+}
+
+.english {
+  width:45%;
+}
+
+.chinese {
+  width:45%;
 }
 
 .react-datalist-input__label {
@@ -56,4 +74,12 @@ tr {
 
 .insertmeal.mobile {
   width:100%;
+}
+
+.insertinput {
+  width:45%;
+}
+
+.insertsubmit {
+  width:10%;
 }
