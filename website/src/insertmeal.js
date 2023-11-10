@@ -14,19 +14,17 @@ class InsertMeal extends Component {
 
     this.myRef = React.createRef();
 
-    //this.handleKeypress = this.handleKeypress.bind(this);
+    this.handleKeypress = this.handleKeypress.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleDeleteKeypress = this.handleDeleteKeypress.bind(this);
     this.getDishes = this.getDishes.bind(this);
   }
 
-  // handleKeypress(args) {
-  //   if (args["code"] == "Enter") {
-  //     this.handleClick({
-  //       "value":document.getElementById(":r0:").value
-  //     })
-  //   }
-  // }
+  handleKeypress(args) {
+    if (args["code"] == "Enter") {
+      this.handleClick();
+    }
+  }
 
   handleDeleteKeypress(args) {
     if (args["code"] == "Enter") {
@@ -87,12 +85,14 @@ class InsertMeal extends Component {
   componentDidMount() {
     this.getDishes();
 
-    //document.getElementById(":r0:").addEventListener("keydown", this.handleKeypress);
+    document.getElementById("englishinput").addEventListener("keydown", this.handleKeypress);
+    document.getElementById("chineseinput").addEventListener("keydown", this.handleKeypress);
     document.getElementsByClassName("react-datalist-input__textbox")[0].addEventListener("keydown", this.handleDeleteKeypress);
   }
 
   componentWillUnmount() {
-    //document.getElementById(":r0:").removeEventListener("keydown", this.handleKeypress);
+    document.getElementById("englishinput").removeEventListener("keydown", this.handleKeypress);
+    document.getElementById("chineseinput").addEventListener("keydown", this.handleKeypress);
     document.getElementsByClassName("react-datalist-input__textbox")[0].addEventListener("keydown", this.handleDeleteKeypress);
   }
 
